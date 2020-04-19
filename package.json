@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
-    "index": "nodemon index"
+    "client": "cd client && npm start",
+    "server": "nodemon index",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\" "
   },
   "repository": {
     "type": "git",
