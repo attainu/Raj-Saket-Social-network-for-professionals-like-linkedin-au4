@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 //const connectDB = require('./config/db');
 //Connect Database through Atlas
 //connectDB();
 
+app.use(cors());
 app.use(express.json({ extended: false }));
 
 //connecting mongodb locally

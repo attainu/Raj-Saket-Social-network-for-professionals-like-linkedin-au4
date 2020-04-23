@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+// alert for input validations
+import Alert from "../layout/Alert";
 
 //bringing action here
 import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
 
-const Register = (props) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   //console.log("props-", props.setAlert);
   const [formData, setFormData] = useState({
     name: "",
@@ -26,29 +29,20 @@ const Register = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirm_password) {
-      props.setAlert("password does not match", "danger");
+      setAlert("password does not match", "danger");
     } else {
       console.log("password matched->", formData);
-      //   const newUser = { name, email, password };
-
-      //   try {
-      //     const config = {
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //     };
-
-      //     const body = JSON.stringify(newUser);
-      //     const res = await axios.post("/users", body, config);
-      //     console.log("res->", res);
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
+      register({ name, email, password });
     }
   };
 
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
+
   return (
     <div className="container">
+      <Alert />
       <h1 className="large text-primary" style={{ textAlign: "center" }}>
         Sign Up
       </h1>
@@ -64,7 +58,7 @@ const Register = (props) => {
             name="name"
             value={name}
             onChange={(e) => handleInput(e)}
-            required
+            // required
           />
         </div>
         <div className="form-group">
@@ -75,7 +69,7 @@ const Register = (props) => {
             name="email"
             value={email}
             onChange={(e) => handleInput(e)}
-            required
+            // required
           />
         </div>
         <div className="form-group">
@@ -86,8 +80,8 @@ const Register = (props) => {
             name="password"
             value={password}
             onChange={(e) => handleInput(e)}
-            minLength="6"
-            required
+            // minLength="6"
+            // required
           />
         </div>
         <div className="form-group">
@@ -98,8 +92,8 @@ const Register = (props) => {
             name="confirm_password"
             value={confirm_password}
             onChange={(e) => handleInput(e)}
-            minLength="6"
-            required
+            // minLength="6"
+            // required
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Register" />
@@ -113,6 +107,12 @@ const Register = (props) => {
 
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { setAlert })(Register);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(null, { setAlert, register })(Register);
