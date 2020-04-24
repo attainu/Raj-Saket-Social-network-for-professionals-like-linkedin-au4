@@ -15,18 +15,16 @@ router.post(
   [
     check("name", "Name is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 }),
+    check("password","Please enter a password with 6 or more characters").isLength({ min: 6 }),
   ],
 
   async (req, res) => {
-    console.log("details coming from users client->", req.body);
+
+    //console.log("details coming from users client->", req.body);
 
     const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty()) 
+    {
       return res.status(400).json({ errors: errors.array() }); // if any of the above condition(name,email,passowrd) do not match,it is gonna give error 400 msg.
     }
 
@@ -41,19 +39,15 @@ router.post(
           .json({ errors: [{ msg: "User already exist" }] });
       }
 
-      const avatar = gravatar.url(email, {
-        s: "250",
-        r: "pg",
-        d: "mm",
-      });
+      const avatar = gravatar.url(email, {s: "250",r: "pg",d: "mm",});
 
-      user = new User({ name, email, avatar, password }); //create the user
+      user = new User({ name, email, avatar, password });         //create the user
 
-      const salt = await bcrypt.genSalt(10); //hashing the password
+      const salt = await bcrypt.genSalt(10);                      //hashing the password
 
-      user.password = await bcrypt.hash(password, salt); //hash the password
+      user.password = await bcrypt.hash(password, salt);          //hash the password
 
-      await user.save(); //saving the user in database
+      await user.save();                                          //saving the user in database
 
       const payload = {
         //getting the paylaod which includes user _id
@@ -64,8 +58,8 @@ router.post(
 
       jwt.sign(
         //sign the token
-        payload, //we can register user and get json webtoken back that has user _id payload
-        "mysecrettoekn", //passing the secret
+        payload,                    //we can register user and get json webtoken back that has user _id payload
+        "mysecrettoekn",           //passing the secret
         { expiresIn: 360000 },
         (error, token) => {
           //here in callback we will get either error or TOKEN. Afetr we get token we will send it back to the client.

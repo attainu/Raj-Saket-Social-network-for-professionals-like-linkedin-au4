@@ -32,7 +32,7 @@ mongoose.connect(
 app.use("/users", require("./Controller/users"));
 app.use("/auth", require("./Controller/auth"));
 app.use("/profile", require("./Controller/profile"));
-//app.use('/posts', require('./Controller/posts'));
+app.use('/posts', require('./Controller/posts'));
 
 
 
