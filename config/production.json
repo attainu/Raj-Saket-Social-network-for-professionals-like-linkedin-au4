@@ -1,0 +1,5 @@
+{
+  "mongoURI": "mongodb+srv://SaketSuman:Aqws@1234@capstoneproject-ql4si.mongodb.net/test?retryWrites=true&w=majority",
+  "githubClientId": "a82b3c91392293c52e9c",
+  "githubSecret": "26d356b8ea2a3bd847cf1ceceeee3ec526cb1517"
+}
