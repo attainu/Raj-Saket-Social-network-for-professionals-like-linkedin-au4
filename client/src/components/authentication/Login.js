@@ -40,6 +40,7 @@ const Login = ({ login, isAuthenticated }) => {
       </p>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
+          <label htmlFor="email">Email:</label>
           <input
             type="email"
             placeholder="Email Address"
@@ -50,6 +51,8 @@ const Login = ({ login, isAuthenticated }) => {
           />
         </div>
         <div className="form-group">
+          <label htmlFor="password">Password:</label>
+
           <input
             type="password"
             placeholder="Password"
